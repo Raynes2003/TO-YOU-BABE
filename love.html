@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <link href="https://fonts.googleapis.com/css2?family=Mali:wght@300;400;500&display=swap" rel="stylesheet">
 
 <title>สิ่งที่ฉันรักในตัวเธอ</title>
@@ -111,42 +112,23 @@ body {
 </button>
 
 <script>
-/* ข้อมูลการ์ด (แก้เฉพาะตรงนี้ก็พอ) */
+/* ข้อมูลการ์ด */
 const cardsData = [
-  {
-    text: "รอยยิ้มของเธอ ที่ทำให้ฉันยิ้มตามได้เสมอ 🤍",
-    image: "image/v6.jpg"
-  },
-  {
-    text: "ความอบอุ่น เวลาที่เธออยู่ข้าง ๆ",
-    image: "image/2.jpg"
-  },
-  {
-    text: "ความใส่ใจในเรื่องเล็ก ๆ ที่ฉันไม่เคยลืม",
-    image: "image/6.jpg"
-  },
-  {
-    text: "เสียงหัวเราะของเธอ ที่ทำให้ทุกวันสดใส",
-    image: "image/4.jpg"
-  },
-  {
-    text: "การไม่ทิ้งกัน ในวันที่เหนื่อย",
-    image: "image/5.jpg"
-  },
-  {
-    text: "การที่เธอเป็นตัวของตัวเอง",
-    image: "image/3.jpg"
-  },
-  {
-    text: "ทั้งหมดนี้… เพราะมันคือเธอ 💖",
-    image: "image/7.jpg"
-  }
+  { text: "รอยยิ้มของเธอ ที่ทำให้ฉันยิ้มตามได้เสมอ 🤍", image: "image/v6.jpg" },
+  { text: "ความอบอุ่น เวลาที่เธออยู่ข้าง ๆ", image: "image/2.jpg" },
+  { text: "ความใส่ใจในเรื่องเล็ก ๆ ที่ฉันไม่เคยลืม", image: "image/6.jpg" },
+  { text: "เสียงหัวเราะของเธอ ที่ทำให้ทุกวันสดใส", image: "image/4.jpg" },
+  { text: "การไม่ทิ้งกัน ในวันที่เหนื่อย", image: "image/5.jpg" },
+  { text: "การที่เธอเป็นตัวของตัวเอง", image: "image/3.jpg" },
+  { text: "ทั้งหมดนี้… เพราะมันคือเธอ 💖", image: "image/7.jpg" }
 ];
 
 const stack = document.getElementById("stack");
 const nextBtn = document.getElementById("nextBtn");
 
-let startX = 0, startY = 0, currentCard = null;
+let startX = 0;
+let startY = 0;
+let currentCard = null;
 
 function createCards() {
   cardsData.slice().reverse().forEach(item => {
@@ -192,25 +174,27 @@ function drag(e) {
 function endDrag() {
   if (!currentCard) return;
 
-  const rect = currentCard.getBoundingClientRect();
+  const card = currentCard;   // ✅ เก็บไว้
+  currentCard = null;
+
+  const rect = card.getBoundingClientRect();
   const dx = rect.left + rect.width / 2 - window.innerWidth / 2;
   const dy = rect.top + rect.height / 2 - window.innerHeight / 2;
 
   if (Math.abs(dx) > 120 || Math.abs(dy) > 120) {
-    currentCard.style.transform =
+    card.style.transform =
       `translate(${dx * 3}px, ${dy * 3}px) rotate(${dx / 10}deg)`;
 
     setTimeout(() => {
-      currentCard.remove();
+      card.remove();
       if (stack.children.length === 0) {
         nextBtn.style.display = "block";
       }
     }, 400);
   } else {
-    currentCard.style.transform = "";
+    card.style.transform = "";
   }
 
-  currentCard = null;
   document.removeEventListener("mousemove", drag);
   document.removeEventListener("mouseup", endDrag);
   document.removeEventListener("touchmove", drag);
