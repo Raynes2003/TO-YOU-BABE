@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Mali:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<title>วันแรกของเรา</title>
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: 'Mali', cursive;
+  font-weight: 600;
+  background: linear-gradient(120deg, #ffe6f0, #fff0f6);
+  min-height: 100vh;
+  animation: fadeIn 1s;
+}
+
+/* เมนู */
+.top-menu {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 5;
+}
+
+.top-menu button {
+  margin-left: 8px;
+  border: none;
+  border-radius: 50%;
+  width: 42px;
+  height: 42px;
+  font-size: 18px;
+  cursor: pointer;
+  background: #ffb3d9;
+  color: white;
+}
+
+.container {
+  display: flex;
+  min-height: 100vh;
+  padding: 80px 40px 40px;
+  align-items: center;
+}
+
+.left, .right { flex: 1; }
+
+.left {
+  display: flex;
+  justify-content: center;
+}
+
+.left img {
+  width: 100%;
+  max-width: 320px;
+  border-radius: 20px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+}
+
+.right {
+  padding: 40px;
+}
+
+.right h1 {
+  color: #ff5c8a;
+  margin-bottom: 10px;
+  font-size: 1.8rem;
+}
+
+.right p {
+  font-size: 1.05rem;
+  color: #555;
+  line-height: 1.7;
+}
+
+.surprise-btn {
+  margin-top: 25px;
+  padding: 14px 26px;
+  border: none;
+  border-radius: 18px;
+  background: #ff85b3;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+/* overlay */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+}
+
+.story-box {
+  width: 90vw;
+  max-width: 320px;
+  aspect-ratio: 9 / 16;
+  background: black;
+  border-radius: 20px;
+  position: relative;
+  overflow: hidden;
+  animation: pop 0.4s;
+}
+
+.story-box video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ข้อความลอย */
+.floating-text {
+  position: absolute;
+  bottom: 18%;
+  width: 100%;
+  text-align: center;
+  color: white;
+  font-size: 1rem;
+  padding: 0 20px;
+  opacity: 0;
+  animation: floatUp 3s forwards;
+  text-shadow: 0 2px 6px rgba(0,0,0,0.5);
+}
+
+.floating-text.delay {
+  animation-delay: 3s;
+}
+
+.close {
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  color: white;
+  font-size: 26px;
+  cursor: pointer;
+  z-index: 20;
+}
+
+/* ข้อความหลังปิด */
+.thank-you {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: white;
+  padding: 12px 20px;
+  border-radius: 20px;
+  color: #ff5c8a;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  display: none;
+  animation: fadeInUp 0.6s;
+  z-index: 20;
+}
+
+/* animation */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes pop {
+  from { transform: scale(0.8); }
+  to { transform: scale(1); }
+}
+
+@keyframes floatUp {
+  0% { opacity: 0; transform: translateY(20px); }
+  20% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(-20px); }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translate(-50%, 20px); }
+  to { opacity: 1; transform: translate(-50%, 0); }
+}
+
+/* มือถือ */
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+    padding: 100px 20px 30px;
+    text-align: center;
+  }
+
+  .right { padding-top: 20px; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="top-menu">
+  <button onclick="goGame()">🎮</button>
+  <button onclick="goMemory()">📸</button>
+  <button onclick="goFeel()">💌</button>
+</div>
+
+<div class="container">
+  <div class="left">
+    <img src="image/2.jpg" alt="เรา">
+  </div>
+
+  <div class="right">
+    <h1>ตั้งแต่วันนั้น...</h1>
+    <p>
+      วันที่ทุกอย่างเริ่มต้นขึ้น ในตอนที่เค้าขึ้นรถไปหาเธอครั้งแรก ตอนนั้นไปกับเพื่อนครึ่งทาง<br>
+      เลยรู้สึกชิวๆมาก เธอมารับเค้าที่หน้าโลตัส ตอนนั้นในใจคิดว่าแบบเอ้ย ตัวจริงเด็กแว้นจังว่ะไม่น่าคบได้นาน<br>
+      ถัดมาการเจอครั้งแรกของเรา เค้าเป็นเมน555555 แต่เธอเดินไปซื้อผ้าอนามัยให้เค้าตอนนี้คือแบบเห้ยไม่เคยมีผู้ชายคนไหนซื้ออะไรแบบนี้ให้เลย<br>
+      จะบอกว่ามีครั้งที่1ก้ต้องมีครั้งที่2 ตอนนั้นเค้างอแงอยากไปเดินโลตัสแต่ลืมดูว่ากางเกงเธอหลวม มือยังเธอยังไม่จับอ่ะนั่งดึงกางเกงอยู่ตลอด555555<br>
+      ตอนนั้นที่ไปเที่ยวทะเลด้วยกันเค้าไปสบายตอนนั้นคือเค้าไม่รู้สึกตัวจริงๆ ขอบคุณนะที่ดูแลเค้าป้อนข้าวให้<br>
+      และครั้งล่าสุดที่ได้เห็น เธอดีมากๆเบาะที่เปียกฝนเค้าใส่กางเกงสีขาวกลัวสกปรกเธอเช็ดให้ งอแงไม่อยากแกะกุ้งเองเพราะอยากมีโมเมนต์กับเธอ<br>
+      เธอบอกปกติไม่เคยแกะกุ้งให้ใครเพราะเธอก้กินทั้งเปลือก55555 ขอบคุณที่ทำให้เค้ามีความสุขในทุกๆวันนะ<br>
+      ขอโทษที่ชอบด่าแต่เธอก็ชอบทำตัวให้ชอบด่าจริงอ่ะ ที่เคยบอกไม่เคยพูดเล่นเลยนะ เค้าคาดหวังให้เธอเวลาจะทำอะไรในการใช้ชีวิตอยากให้คิดให้มากๆ เพราะบางอย่างมันย้อนกลับมาแก้ไม่ได้<br>
+      ถึงตอนนี้4ปีแล้วเราก็ยังอยู่ด้วยกัน ขอบคุณที่ไม่ทิ้งเค้าในวันที่เค้าแย่ที่สุด ขอบคุณที่อยู่ข้างๆเค้ามาตลอด<br>
+      รักเธอนะ  💖
+    </p>
+
+    <button class="surprise-btn" onclick="openStory()">ดูเซอร์ไพร์ส</button>
+  </div>
+</div>
+
+<!-- popup -->
+<div class="overlay" id="overlay">
+  <div class="story-box">
+    <div class="close" onclick="closeStory()">✕</div>
+
+    <div class="floating-text">วันนั้นเราไม่รู้เลยว่า…</div>
+    <div class="floating-text delay">…มันจะกลายเป็นความทรงจำที่ดีที่สุด</div>
+
+    <video id="storyVideo"
+           src="image/vd.mp4"
+           muted
+           playsinline>
+    </video>
+  </div>
+</div>
+
+<div class="thank-you" id="thankYou">
+  ขอบคุณที่ดูจนจบ 🤍
+</div>
+
+<script>
+function openStory() {
+  const overlay = document.getElementById("overlay");
+  const video = document.getElementById("storyVideo");
+
+  overlay.style.display = "flex";
+  video.currentTime = 0;
+
+  video.play().catch(() => {});
+}
+
+function closeStory() {
+  const overlay = document.getElementById("overlay");
+  const video = document.getElementById("storyVideo");
+  const thankYou = document.getElementById("thankYou");
+
+  video.pause();
+  video.currentTime = 0;
+  overlay.style.display = "none";
+
+  thankYou.style.display = "block";
+  setTimeout(() => {
+    thankYou.style.display = "none";
+  }, 2500);
+}
+
+function goGame() {
+  location.href = "game.html";
+}
+function goMemory() {
+  location.href = "memories.html";
+}
+function goFeel() {
+  location.href = "final.html";
+}
+</script>
+
+</body>
+</html>

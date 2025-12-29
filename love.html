@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Mali:wght@300;400;500&display=swap" rel="stylesheet">
+
+<title>สิ่งที่ฉันรักในตัวเธอ</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Mali', cursive;
+  font-weight: 600;
+  background: linear-gradient(120deg, #ffe6f0, #fff0f6);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  touch-action: none;
+}
+
+.stack {
+  position: relative;
+  width: 90vw;
+  max-width: 320px;
+  height: 65vh;
+  max-height: 420px;
+}
+
+/* ===== การ์ด ===== */
+.card {
+  position: absolute;
+  inset: 0;
+  border-radius: 26px;
+  overflow: hidden;
+  cursor: grab;
+  user-select: none;
+
+  background-size: cover;
+  background-position: center;
+
+  box-shadow: 0 18px 40px rgba(0,0,0,0.15);
+  transition: transform 0.3s ease;
+}
+
+/* กล่องข้อความ */
+.text-box {
+  position: absolute;
+  bottom: 18px;
+  left: 16px;
+  right: 16px;
+  background: white;
+  border-radius: 18px;
+  padding: 18px 16px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.18);
+  z-index: 2;
+
+  font-size: clamp(15px, 4.3vw, 19px);
+  color: #444;
+  line-height: 1.6;
+  text-align: center;
+}
+
+/* การซ้อนการ์ด */
+.card:nth-child(1) { z-index: 5; }
+.card:nth-child(2) { z-index: 4; transform: scale(0.97) translateY(10px); }
+.card:nth-child(3) { z-index: 3; transform: scale(0.94) translateY(20px); }
+
+.hint {
+  position: absolute;
+  bottom: 8vh;
+  width: 100%;
+  text-align: center;
+  font-size: 14px;
+  color: #ff7aa2;
+}
+
+.next-btn {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 14px 26px;
+  border-radius: 20px;
+  border: none;
+  background: #ff85b3;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  display: none;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.25);
+}
+
+/* จอเตี้ย */
+@media (max-height: 600px) {
+  .stack { height: 60vh; }
+  .hint { bottom: 6vh; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="stack" id="stack"></div>
+<div class="hint">ปัดการ์ดขึ้น / ซ้าย / ขวา 💗</div>
+
+<button class="next-btn" id="nextBtn" onclick="goNext()">
+  ไปหน้าสุดท้าย 🤍
+</button>
+
+<script>
+/* ข้อมูลการ์ด (แก้เฉพาะตรงนี้ก็พอ) */
+const cardsData = [
+  {
+    text: "รอยยิ้มของเธอ ที่ทำให้ฉันยิ้มตามได้เสมอ 🤍",
+    image: "image/v6.jpg"
+  },
+  {
+    text: "ความอบอุ่น เวลาที่เธออยู่ข้าง ๆ",
+    image: "image/2.jpg"
+  },
+  {
+    text: "ความใส่ใจในเรื่องเล็ก ๆ ที่ฉันไม่เคยลืม",
+    image: "image/6.jpg"
+  },
+  {
+    text: "เสียงหัวเราะของเธอ ที่ทำให้ทุกวันสดใส",
+    image: "image/4.jpg"
+  },
+  {
+    text: "การไม่ทิ้งกัน ในวันที่เหนื่อย",
+    image: "image/5.jpg"
+  },
+  {
+    text: "การที่เธอเป็นตัวของตัวเอง",
+    image: "image/3.jpg"
+  },
+  {
+    text: "ทั้งหมดนี้… เพราะมันคือเธอ 💖",
+    image: "image/7.jpg"
+  }
+];
+
+const stack = document.getElementById("stack");
+const nextBtn = document.getElementById("nextBtn");
+
+let startX = 0, startY = 0, currentCard = null;
+
+function createCards() {
+  cardsData.slice().reverse().forEach(item => {
+    const card = document.createElement("div");
+    card.className = "card";
+    card.style.backgroundImage = `url('${item.image}')`;
+
+    const box = document.createElement("div");
+    box.className = "text-box";
+    box.innerText = item.text;
+
+    card.appendChild(box);
+    stack.appendChild(card);
+  });
+  addDrag();
+}
+
+function addDrag() {
+  document.querySelectorAll(".card").forEach(card => {
+    card.addEventListener("mousedown", startDrag);
+    card.addEventListener("touchstart", startDrag, { passive: true });
+  });
+}
+
+function startDrag(e) {
+  currentCard = e.currentTarget;
+  startX = e.touches ? e.touches[0].clientX : e.clientX;
+  startY = e.touches ? e.touches[0].clientY : e.clientY;
+
+  document.addEventListener("mousemove", drag);
+  document.addEventListener("mouseup", endDrag);
+  document.addEventListener("touchmove", drag, { passive: true });
+  document.addEventListener("touchend", endDrag);
+}
+
+function drag(e) {
+  if (!currentCard) return;
+  const x = (e.touches ? e.touches[0].clientX : e.clientX) - startX;
+  const y = (e.touches ? e.touches[0].clientY : e.clientY) - startY;
+  currentCard.style.transform = `translate(${x}px, ${y}px) rotate(${x / 15}deg)`;
+}
+
+function endDrag() {
+  if (!currentCard) return;
+
+  const rect = currentCard.getBoundingClientRect();
+  const dx = rect.left + rect.width / 2 - window.innerWidth / 2;
+  const dy = rect.top + rect.height / 2 - window.innerHeight / 2;
+
+  if (Math.abs(dx) > 120 || Math.abs(dy) > 120) {
+    currentCard.style.transform =
+      `translate(${dx * 3}px, ${dy * 3}px) rotate(${dx / 10}deg)`;
+
+    setTimeout(() => {
+      currentCard.remove();
+      if (stack.children.length === 0) {
+        nextBtn.style.display = "block";
+      }
+    }, 400);
+  } else {
+    currentCard.style.transform = "";
+  }
+
+  currentCard = null;
+  document.removeEventListener("mousemove", drag);
+  document.removeEventListener("mouseup", endDrag);
+  document.removeEventListener("touchmove", drag);
+  document.removeEventListener("touchend", endDrag);
+}
+
+function goNext() {
+  location.href = "final.html";
+}
+
+createCards();
+</script>
+
+</body>
+</html>

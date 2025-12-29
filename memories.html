@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Mali:wght@300;400;500&display=swap" rel="stylesheet">
+<title>ความทรงจำของเรา</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    font-family: 'Mali', cursive;
+    font-weight: 600;
+    background: linear-gradient(120deg, #fff0f6, #ffe6f0);
+    min-height: 100vh;
+    padding: 40px;
+    animation: fadeIn 1s;
+    overflow-x: hidden;
+  }
+
+  h1 {
+    text-align: center;
+    color: #ff5c8a;
+    margin-bottom: 40px;
+    font-size: 2rem;
+  }
+
+  .card {
+    background: white;
+    display: flex;
+    border-radius: 22px;
+    margin-bottom: 30px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    animation: slideUp 0.8s;
+  }
+
+  .card img {
+    width: 260px;
+    object-fit: cover;
+  }
+
+  .content {
+    padding: 25px;
+  }
+
+  .content h3 {
+    margin-top: 0;
+    color: #ff7aa2;
+    font-size: 1.3rem;
+  }
+
+  .content p {
+    font-size: 1rem;
+    color: #555;
+    line-height: 1.7;
+  }
+
+  .next-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    left: auto;
+    padding: 14px 22px;
+    border-radius: 20px;
+    border: none;
+    background: #ff85b3;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    z-index: 5;
+  }
+
+  .next-btn:active {
+    transform: scale(0.96);
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* =========================
+     มือถือ
+     ========================= */
+  @media (max-width: 768px) {
+
+    body {
+      padding: 20px;
+    }
+
+    h1 {
+      font-size: 1.6rem;
+      margin-bottom: 30px;
+    }
+
+    .card {
+      flex-direction: column;
+    }
+
+    .card img {
+      width: 100%;
+      height: 220px;
+    }
+
+    .content {
+      padding: 20px;
+    }
+
+    .content h3 {
+      font-size: 1.2rem;
+    }
+
+    .content p {
+      font-size: 0.95rem;
+    }
+
+    .next-btn {
+      left: 20px;
+      right: 20px;
+      width: calc(100% - 40px);
+    }
+  }
+</style>
+</head>
+
+<body>
+
+<h1>ความทรงจำของเรา</h1>
+
+<div class="card">
+  <img src="image/888.jpg" alt="วันแรกของเรา">
+  <div class="content">
+    <h3>วันแรกที่เราเริ่มคุยกัน</h3>
+  </div>
+</div>
+
+<div class="card">
+  <img src="image/v4.jpg" alt="ทริปแรก">
+  <div class="content">
+    <h3>ทริปแรกของเรา</h3>
+  </div>
+</div>
+
+<div class="card">
+  <img src="image/9.jpg" alt="เสียงหัวเราะ">
+  <div class="content">
+    <h3>วันที่เราหัวเราะด้วยกัน</h3>
+  </div>
+</div>
+
+<div class="card">
+  <img src="image/6.jpg" alt="เสียงหัวเราะ">
+  <div class="content">
+    <h3>วันที่ธอแกะกุ้งให้</h3>
+  </div>
+</div>
+
+<div class="card">
+  <img src="image/v1.jpg" alt="เสียงหัวเราะ">
+  <div class="content">
+    <h3>วันที่เราคิดถึงเธอที่สุด</h3>
+  </div>
+</div>
+
+<div class="card">
+  <img src="image/v2.jpg" alt="เสียงหัวเราะ">
+  <div class="content">
+    <h3>วันที่เราไกลกัน</h3>
+  </div>
+</div>
+
+<div class="card">
+  <img src="image/v3.jpg" alt="เสียงหัวเราะ">
+  <div class="content">
+    <h3>วันที่เค้ามีความสุขมาก</h3>
+  </div>
+</div>
+
+
+<button class="next-btn" onclick="goNext()">
+  สิ่งที่ฉันรักในตัวเธอ 💖
+</button>
+
+<script>
+  function goNext() {
+    window.location.href = "love.html";
+  }
+</script>
+
+</body>
+</html>

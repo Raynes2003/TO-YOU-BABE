@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Mali:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<title>เกมความทรงจำของเรา</title>
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: 'Mali', cursive;
+  font-weight: 600;
+  background: linear-gradient(120deg, #ffe6f0, #fff);
+  min-height: 100vh;
+  animation: fadeIn 1s;
+}
+
+.container {
+  display: flex;
+  min-height: 100vh;
+  padding: 90px 30px 100px;
+  gap: 24px;
+}
+
+.left {
+  flex: 1;
+  background: white;
+  border-radius: 22px;
+  padding: 26px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+}
+
+.left h2 {
+  color: #ff5c8a;
+  margin-top: 0;
+  font-size: 1.6rem;
+}
+
+.choice {
+  margin-top: 14px;
+  padding: 16px;
+  border-radius: 16px;
+  border: 2px solid #ffd6e8;
+  cursor: pointer;
+  font-size: 1.05rem;
+  transition: 0.2s;
+}
+
+.choice:active {
+  background: #fff0f6;
+  transform: scale(0.97);
+}
+
+.right {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.right img {
+  width: 100%;
+  max-width: 260px;
+  transition: 0.3s;
+}
+
+/* streak */
+.streak {
+  margin-top: 10px;
+  color: #ff5c8a;
+  font-size: 0.95rem;
+}
+
+/* ปุ่มย้อนกลับ */
+.back-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  padding: 14px 22px;
+  border-radius: 22px;
+  border: none;
+  background: #ff99c8;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  z-index: 5;
+}
+
+/* POPUP */
+.popup-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 20;
+}
+
+.popup-box {
+  background: #000;
+  border: 3px solid red;
+  color: red;
+  padding: 26px;
+  border-radius: 16px;
+  text-align: center;
+  max-width: 320px;
+  animation: shake 0.15s infinite;
+}
+
+.popup-box h1 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.popup-box button {
+  margin-top: 20px;
+  padding: 12px 22px;
+  border: none;
+  border-radius: 14px;
+  background: red;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+/* animation */
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  50% { transform: translateX(4px); }
+  75% { transform: translateX(-4px); }
+  100% { transform: translateX(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* มือถือ */
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+    padding: 80px 16px 120px;
+  }
+
+  .right {
+    order: -1;
+  }
+
+  .back-btn {
+    width: calc(100% - 32px);
+    left: 16px;
+    right: 16px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <div class="left">
+    <h2 id="question"></h2>
+    <div class="streak" id="streak"></div>
+    <div id="choices"></div>
+  </div>
+
+  <div class="right">
+    <img id="gif" src="image/Hugging Hug GIF.gif">
+  </div>
+</div>
+
+<button class="back-btn" onclick="goBack()">⬅ ย้อนกลับ</button>
+
+<!-- POPUP -->
+<div class="popup-overlay" id="popup">
+  <div class="popup-box">
+    <h1>กูให้มึงตอบใหม่นะ!!!!!!</h1>
+    <button onclick="closePopup()">โอเค 😭</button>
+  </div>
+</div>
+
+<script>
+const questions = [
+  { q: "เราเจอกันครั้งแรกที่ไหน?", c: ["ร้านกาแฟ", "โรงเรียน", "ในเกม"], a: 2 },
+  { q: "ใครทักก่อน?", c: ["เค้า", "เธอ", "พร้อมกัน"], a: 0 },
+  { q: "ของกินที่เราชอบเหมือนกัน?", c: ["ช็อกโกแลต", "เค้ก", "ชาไข่มุก"], a: 0 },
+  { q: "ทริปแรกที่ไปด้วยกันคือ?", c: ["ทะเล", "ภูเขา", "คาเฟ่"], a: 0 },
+  { q: "ใครงอนบ่อยกว่า?", c: ["เค้า", "เธอ", "พอ ๆ กัน"], a: 0 },
+  { q: "เพลงที่ฟังด้วยกันบ่อย?", c: ["เพลงรัก", "เพลงเศร้า", "เพลงสนุก"], a: 0 },
+  { q: "เวลาเค้าไม่โอเคเค้าจะทำอะไร?", c: ["กิน", "โมโหใส่ทุกคน", "ร้องไห้"], a: 2 }
+];
+
+let index = 0;
+let streak = 0;
+
+const questionEl = document.getElementById("question");
+const choicesEl = document.getElementById("choices");
+const gifEl = document.getElementById("gif");
+const popup = document.getElementById("popup");
+const streakEl = document.getElementById("streak");
+
+function loadQuestion() {
+  questionEl.innerText = questions[index].q;
+  choicesEl.innerHTML = "";
+  streakEl.innerText = streak > 0 ? `❤️ ตอบถูกติดกัน ${streak} ข้อ` : "";
+
+  questions[index].c.forEach((choice, i) => {
+    const div = document.createElement("div");
+    div.className = "choice";
+    div.innerText = choice;
+    div.onclick = () => checkAnswer(i);
+    choicesEl.appendChild(div);
+  });
+}
+
+function checkAnswer(i) {
+  if (i === questions[index].a) {
+    streak++;
+
+    if (streak === 1) gifEl.src = "image/d1.gif";
+    else if (streak === 2) gifEl.src = "image/d2.gif";
+    else if (streak === 3) gifEl.src = "image/d3.gif";
+    else if (streak >= 4) gifEl.src = "image/d4.gif";
+
+
+    setTimeout(() => {
+      index++;
+      if (index < questions.length) loadQuestion();
+      else location.href = "memories.html";
+    }, 600);
+  } else {
+    streak = 0;
+    gifEl.src = "image/Angry Phone GIF.gif";
+    popup.style.display = "flex";
+  }
+}
+
+function closePopup() {
+  popup.style.display = "none";
+}
+
+function goBack() {
+  location.href = "page2.html";
+}
+
+loadQuestion();
+</script>
+
+</body>
+</html>
