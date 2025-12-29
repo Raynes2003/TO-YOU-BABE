@@ -5,13 +5,10 @@
 <link href="https://fonts.googleapis.com/css2?family=Mali:wght@300;400;500&display=swap" rel="stylesheet">
 <title>ความทรงจำของเรา</title>
 
-<!-- สำคัญที่สุดสำหรับมือถือ -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-  * {
-    box-sizing: border-box;
-  }
+  * { box-sizing: border-box; }
 
   body {
     margin: 0;
@@ -40,7 +37,6 @@
     width: 100%;
     max-width: 220px;
     border-radius: 15px;
-    height: auto;
   }
 
   p {
@@ -70,54 +66,52 @@
     cursor: pointer;
   }
 
-  button:active {
-    transform: scale(0.97);
-  }
+  button:active { transform: scale(0.97); }
 
   @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ปุ่มเพลง */
+  .music-btn {
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: #ff85b3;
+    color: white;
+    font-size: 22px;
+    border: none;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.25);
+    cursor: pointer;
   }
 
   .heart {
     position: fixed;
     bottom: -10vh;
-    color: pink;
     animation: float 6s linear infinite;
     pointer-events: none;
   }
 
   @keyframes float {
-    from {
-      transform: translateY(0);
-      opacity: 1;
-    }
-    to {
-      transform: translateY(-110vh);
-      opacity: 0;
-    }
-  }
-
-  /* ปรับเฉพาะจอเล็กมาก */
-  @media (max-width: 360px) {
-    .card {
-      padding: 20px;
-    }
-
-    p {
-      font-size: 0.95rem;
-    }
+    from { transform: translateY(0); opacity: 1; }
+    to { transform: translateY(-110vh); opacity: 0; }
   }
 </style>
 </head>
 
 <body>
+
+<!-- เพลง -->
+<audio id="bgm" loop playsinline>
+  <source src="image/v7.mp4" type="audio/mpeg">
+</audio>
+
+<!-- ปุ่มเปิดปิดเพลง -->
+<button class="music-btn" id="musicBtn">🎵</button>
 
 <div class="card">
   <img src="image/4.jpg" alt="ความทรงจำของเรา">
@@ -128,6 +122,21 @@
 
 <script>
   const correctCode = "210964";
+  const bgm = document.getElementById("bgm");
+  const musicBtn = document.getElementById("musicBtn");
+
+  let isPlaying = false;
+
+  musicBtn.onclick = () => {
+    if (isPlaying) {
+      bgm.pause();
+      musicBtn.textContent = "🔇";
+    } else {
+      bgm.play();
+      musicBtn.textContent = "🎵";
+    }
+    isPlaying = !isPlaying;
+  };
 
   function checkCode() {
     const input = document.getElementById("code").value.trim();
@@ -138,7 +147,7 @@
     }
   }
 
-  // หัวใจลอย (ปรับให้ไม่กระตุกบนมือถือ)
+  // หัวใจลอย
   setInterval(() => {
     const heart = document.createElement("div");
     heart.className = "heart";
@@ -147,9 +156,7 @@
     heart.style.fontSize = Math.random() * 18 + 12 + "px";
     document.body.appendChild(heart);
 
-    setTimeout(() => {
-      if (heart) heart.remove();
-    }, 6000);
+    setTimeout(() => heart.remove(), 6000);
   }, 900);
 </script>
 
