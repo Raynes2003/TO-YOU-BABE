@@ -8,156 +8,154 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-  * { box-sizing: border-box; }
+* { box-sizing: border-box; }
 
-  body {
-    margin: 0;
-    font-family: 'Mali', cursive;
-    font-weight: 600;
-    background: #ffe6f0;
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow-x: hidden;
-  }
+body {
+  margin: 0;
+  font-family: 'Mali', cursive;
+  background: #ffe6f0;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-  .card {
-    background: white;
-    padding: 24px;
-    border-radius: 20px;
-    text-align: center;
-    width: 100%;
-    max-width: 360px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-    animation: fadeIn 1.2s;
-  }
+.card {
+  background: white;
+  padding: 24px;
+  border-radius: 22px;
+  text-align: center;
+  width: 100%;
+  max-width: 360px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
 
-  img {
-    width: 100%;
-    max-width: 220px;
-    border-radius: 15px;
-  }
+img {
+  width: 100%;
+  max-width: 220px;
+  border-radius: 15px;
+}
 
-  p {
-    margin-top: 16px;
-    font-size: 1rem;
-    color: #444;
-  }
+p {
+  margin: 16px 0;
+  color: #444;
+}
 
-  input {
-    margin-top: 16px;
-    padding: 14px;
-    width: 100%;
-    border-radius: 12px;
-    border: 1px solid #ccc;
-    font-size: 1rem;
-  }
+/* ช่องแสดงรหัส */
+.code-display {
+  height: 50px;
+  background: #fff0f6;
+  border-radius: 14px;
+  margin: 16px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 26px;
+  letter-spacing: 6px;
+  color: #ff5d8f;
+}
 
-  button {
-    margin-top: 16px;
-    padding: 14px;
-    width: 100%;
-    border: none;
-    border-radius: 14px;
-    background: #ff99c8;
-    color: white;
-    font-size: 1rem;
-    cursor: pointer;
-  }
+/* แป้นพิมพ์ */
+.keypad {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
 
-  button:active { transform: scale(0.97); }
+.keypad button {
+  padding: 16px;
+  font-size: 20px;
+  border: none;
+  border-radius: 14px;
+  background: #ff99c8;
+  color: white;
+  cursor: pointer;
+}
 
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
+.keypad button:active {
+  transform: scale(0.95);
+}
 
-  /* ปุ่มเพลง */
-  .music-btn {
-    position: fixed;
-    top: 16px;
-    right: 16px;
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    background: #ff85b3;
-    color: white;
-    font-size: 22px;
-    border: none;
-    box-shadow: 0 6px 16px rgba(0,0,0,0.25);
-    cursor: pointer;
-  }
+.delete {
+  background: #ff6b9c;
+}
 
-  .heart {
-    position: fixed;
-    bottom: -10vh;
-    animation: float 6s linear infinite;
-    pointer-events: none;
-  }
-
-  @keyframes float {
-    from { transform: translateY(0); opacity: 1; }
-    to { transform: translateY(-110vh); opacity: 0; }
-  }
+.confirm-btn {
+  margin-top: 16px;
+  padding: 14px;
+  width: 100%;
+  border-radius: 14px;
+  border: none;
+  background: #ff85b3;
+  color: white;
+  font-size: 16px;
+}
 </style>
 </head>
 
 <body>
 
-<!-- เพลง -->
-<audio id="bgm" loop playsinline>
-  <source src="image/v7.mp4" type="audio/mpeg">
-</audio>
-
-<!-- ปุ่มเปิดปิดเพลง -->
-<button class="music-btn" id="musicBtn">🎵</button>
-
 <div class="card">
-  <img src="image/4.jpg" alt="ความทรงจำของเรา">
+  <img src="image/4.jpg">
   <p>ถ้าเธอคือคนที่ใช่ ใส่รหัสนี้ดูสิ 🤍</p>
-  <input type="text" id="code" placeholder="ลองทายดูสิที่รัก^^">
-  <button onclick="checkCode()">เปิดความทรงจำของเรา</button>
+
+  <!-- แสดงตัวเลขจริง -->
+  <div class="code-display" id="display"></div>
+
+  <div class="keypad">
+    <button onclick="add(1)">1</button>
+    <button onclick="add(2)">2</button>
+    <button onclick="add(3)">3</button>
+    <button onclick="add(4)">4</button>
+    <button onclick="add(5)">5</button>
+    <button onclick="add(6)">6</button>
+    <button onclick="add(7)">7</button>
+    <button onclick="add(8)">8</button>
+    <button onclick="add(9)">9</button>
+    <button class="delete" onclick="del()">⌫</button>
+    <button onclick="add(0)">0</button>
+    <button class="delete" onclick="clearAll()">C</button>
+  </div>
+
+  <button class="confirm-btn" onclick="check()">
+    เปิดความทรงจำของเรา
+  </button>
 </div>
 
 <script>
-  const correctCode = "210964";
-  const bgm = document.getElementById("bgm");
-  const musicBtn = document.getElementById("musicBtn");
+const correctCode = "210964";
+let code = "";
+const display = document.getElementById("display");
 
-  let isPlaying = false;
+function render() {
+  display.textContent = code;   // 🔴 แสดงตัวเลขตรง ๆ
+}
 
-  musicBtn.onclick = () => {
-    if (isPlaying) {
-      bgm.pause();
-      musicBtn.textContent = "🔇";
-    } else {
-      bgm.play();
-      musicBtn.textContent = "🎵";
-    }
-    isPlaying = !isPlaying;
-  };
-
-  function checkCode() {
-    const input = document.getElementById("code").value.trim();
-    if (input === correctCode) {
-      window.location.href = "page2.html";
-    } else {
-      alert("ยังไม่ใช่วันนั้นน้า ลองใหม่อีกครั้ง 🤍");
-    }
+function add(num) {
+  if (code.length < 6) {
+    code += num;
+    render();
   }
+}
 
-  // หัวใจลอย
-  setInterval(() => {
-    const heart = document.createElement("div");
-    heart.className = "heart";
-    heart.innerHTML = "💗";
-    heart.style.left = Math.random() * 100 + "vw";
-    heart.style.fontSize = Math.random() * 18 + 12 + "px";
-    document.body.appendChild(heart);
+function del() {
+  code = code.slice(0, -1);
+  render();
+}
 
-    setTimeout(() => heart.remove(), 6000);
-  }, 900);
+function clearAll() {
+  code = "";
+  render();
+}
+
+function check() {
+  if (code === correctCode) {
+    location.href = "page2.html";
+  } else {
+    alert("ยังไม่ใช่วันนั้นน้า 🤍");
+    clearAll();
+  }
+}
 </script>
 
 </body>
